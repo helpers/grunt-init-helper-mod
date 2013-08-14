@@ -1,0 +1,4 @@
+{
+  "name.js": "{%= name %}.js",
+  "name.sublime-project": "{%= name %}.sublime-project"
+}
