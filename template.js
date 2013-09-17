@@ -30,6 +30,8 @@ exports.template = function(grunt, init, done) {
   init.process({type: 'assemble'}, [
     // Prompt for these values.
     init.prompt('name'),
+    init.prompt('version', '0.1.0'),
+    init.prompt('description', '{{foo}} helper, for doing bar and baz.'),
     init.prompt('author_name'),
     init.prompt('author_url'),
     init.prompt('repository'),
