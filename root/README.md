@@ -1,59 +1,147 @@
-# {{{%= name %}}} [![NPM version](https://badge.fury.io/js/helper-{%= name %}.png)](http://badge.fury.io/js/helper-{%= name %})
+# {{{%= shortname %}}} [![NPM version](https://badge.fury.io/js/{%= name %}.png)](http://badge.fury.io/js/{%= name %})
 
-> {%= name %} handlebars helper, for doing foo, bar and baz.
+> {%= description %}
 
 ## Quickstart
 In the root of your project, run the following in the command line:
 
 ```bash
-npm i helper-{%= name %} --save-dev
+npm i {%= name %} --save-dev
+```
+## Quickstart
+Install the helper with: `npm install handlebars-helper-{%= shortname %} --save`
+
+## Usage with Assemble
+If you use [Assemble](http://assemble.io) and Grunt, you have some simple options for adding helpers.
+
+### Option #1
+Add `handlebars-helper-{%= shortname %}` to the `helpers` property in the [Assemble](http://assemble.io) task or target options in your Gruntfile:
+
+```javascript
+grunt.initConfig({
+  assemble: {
+    options: {
+      // You may either register the helper this way.
+      helpers: ['handlebars-helper-{%= shortname %}', 'foo/*.js']
+    },
+    files: {}
+  }
+});
+```
+### Option #2
+
+Or, add the `handlebars-helper-{%= shortname %}` module to both the `devDependencies` and the `keywords` array of your project's the package.json, enabling Assemble will automatically resolve the helper. Example:
+
+```json
+{
+  "name": "your-project",
+  "dependencies": {
+    "handlebars-helper-{%= shortname %}": "*"
+  },
+  "keywords": [
+    "handlebars-helper-{%= shortname %}"
+  ]
+}
 ```
 
-## Usage
+You can now use begin using the helper in your templates:
 
 ```handlebars
-{{{%= name %} "path/to/file.{%= name %}"}}
+{{{%= shortname %} "path/to/{%= name %}"}}
+```
+or
+
+```handlebars
+{{#{%= shortname %}}}
+  My content
+{{/{%= shortname %}}}
 ```
 
-## Usage in Assemble
+## Helper Options
+### foo
+Type: `String` (optional)
+Default value: `''`
 
-In your Gruntfile, simply add `helper-{%= name %}` to the `helpers` property in the [Assemble](http://assemble.io) task or target options:
+The `cwd` for paths defined in the helper.
 
-```javascript
-grunt.initConfig({
-  assemble: {
-    options: {
-      helpers: ['helper-{%= name %}']
+### bar
+Type: `String`
+Default value: `\n`
+
+The separator to append after each inlined file.
+
+### baz
+Type: `Function`
+Default value: `function(a, b) {return a.index >= b.index ? 1 : -1;}`
+
+Compare function for sorting the resulting files.
+
+
+
+### Defining Options
+> Options can be defined in either of the following ways:
+
+### hash options
+Set options as hash arguments directly on the helper expressions themselves:
+
+```handlebars
+{{{%= shortname %} 'my/book/chapters/*.hbs' sep="<!-- Chapter -->"}}
+```
+
+Note that **Options defined in the hash always win**!
+
+
+### "assemble" task options
+> If you use Grunt and [Assemble](http://assemble.io), you can pass options from the `assemble` task in the Gruntfile to the helper.
+
+This helper registers the [custom `{%= shortname %}` property](http://assemble.io/docs/Custom-Helpers.html), in the Assemble options, enabling options for the helper to be defined in the Assemble task or target options, e.g.:
+
+```js
+assemble: {
+  options: {
+    {%= shortname %}: {
+      // {%= shortname %} helper options here
     }
-    ...
   }
-});
+}
 ```
-With that completed, you may now being using the `{%= name %}` helper in your Assemble project.
+
+## Examples
+
+### Hash options
+
+```handlebars
+{{{%= shortname %} 'foo/*.hbs' bar="\n"}}
+```
 
 
-## Options
+### Usage with [Assemble](http://assemble.io)
 
-### task options
-Options can be set in your Gruntfile, in the `{%= name %}` object in the Assemble task or target options:
+In your project's Gruntfile, options for the `{{{%= shortname %}}}` helper can be defined in the Assemble task options:
 
-```javascript
-grunt.initConfig({
-  assemble: {
-    options: {
-      {%= name %}: {
-        pretty: true
+```js
+assemble: {
+  options: {
+    helpers: ['{%= name %}'],
+    {%= shortname %}: {
+      foo: 'foo',
+      bar: function(src) {
+        return src;
+      },
+      baz: {
+        alpha: ''
       }
     }
-    ...
-  }
-});
+  },
+  files: {}
+}
 ```
+
 
 ## Author
 
-+ [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
 + [github/jonschlinkert](http://github.com/jonschlinkert)
++ [twitter/jonschlinkert](http://twitter.com/jonschlinkert)
 
 
 ## License and Copyright

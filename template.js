@@ -22,16 +22,29 @@ exports.after = 'Visit http://assemble.io/docs/Helpers for more information ' +
 // The actual init template.
 exports.template = function(grunt, init, done) {
 
-  // Use lodash mixin to create sublime text project file
-  // when a new project is created. Delete them if you don't
-  // need them ;-)
-  grunt.util._.mixin(require('./lib/mixins').init(grunt));
+  var _ = grunt.util._;
+
+  _.mixin({
+    /**
+     * Replaces dashes with underscores and strips keywords
+     * @param  {[type]} name The name to be modified
+     * @return {[type]}      The "safe" short version of the name
+     * @example: _.shortname("helper-foo") => "foo"
+     */
+    shortname: function (name, patterns) {
+      var prefixes = ['assemble', 'assemble-contrib', 'handlebars-helper', 'helper', 'mixin', 'grunt'];
+      prefixes = _.unique(_.flatten(_.union([], prefixes, patterns || [])));
+      var re = new RegExp('^(?:' + prefixes.join('|') + ')[-_]?');
+      return name.replace(re, '').replace(/[\W_]+/g, '_').replace(/^(\d)/, '_$1');
+    }
+  });
 
   init.process({type: 'assemble'}, [
     // Prompt for these values.
     init.prompt('name'),
-    init.prompt('version', '0.1.0'),
-    init.prompt('description', '{{foo}} helper, for doing bar and baz.'),
+    init.prompt('username', 'jonschlinkert'),
+    init.prompt('version'),
+    init.prompt('description'),
     init.prompt('author_name'),
     init.prompt('author_url'),
     init.prompt('repository'),
@@ -40,13 +53,28 @@ exports.template = function(grunt, init, done) {
     init.prompt('licenses')
   ], function(err, props) {
 
-    // Set a few grunt-plugin-specific properties.
-    props.hompage    = 'https://github.com/assemble/' + props.name + '/';
-    props.repository = 'https://github.com/assemble/' + props.name + '.git';
-    props.keywords   = ['helper', 'mixin', 'handlebars helper', 'underscore mixin', 'filter', 'template filter', 'swig filter', 'lodash', 'underscore', 'convenience methods'];
-    props.devDependencies = {
-      'assemble-internal': '~0.2.0'
+    // Set a few grunt-plugin-specific properties on the context.
+    props.shortname   = _.shortname(props.name);
+    props.description = '{{' + _.shortname(props.name) + '}} handlebars helper.';
+    props.homepage    = 'https://github.com/' + props.username + '/' + props.name;
+    props.author_url  = 'https://github.com/' + props.username;
+    props.repository  = 'https://github.com/' + props.username + '/' + props.name + '.git';
+    props.bugs        = 'https://github.com/' + props.username + '/' + props.name + '/issues';
+    props.main        = './index.js';
+    props.dependencies = {
+      'lodash': '~2.2.1',
+      'handlebars': '~1.0.12',
+      'pretty': '~0.1.1'
     };
+    props.devDependencies = {
+      'grunt': '~0.4.1',
+      'assemble': '~0.4.1',
+      'grunt-contrib-clean': '~0.5.0',
+      'grunt-contrib-jshint': '~0.6.0',
+      'grunt-readme': '~0.1.0'
+    };
+    props.keywords   = [props.name, 'assemble', 'handlebars helper', 'helper', 'grunt'];
+
     props.travis = /y/i.test(props.travis);
     props.travis_node_version = '0.8';
 
