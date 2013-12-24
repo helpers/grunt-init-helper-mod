@@ -62,18 +62,18 @@ exports.template = function(grunt, init, done) {
     props.bugs        = 'https://github.com/' + props.username + '/' + props.name + '/issues';
     props.main        = './index.js';
     props.dependencies = {
-      'lodash': '~2.2.1',
-      'handlebars': '~1.0.12',
-      'pretty': '~0.1.1'
+      "lodash": "~2.4.0",
+      "handlebars": "~1.0.12"
     };
     props.devDependencies = {
-      'grunt': '~0.4.1',
-      'assemble': '~0.4.1',
-      'grunt-contrib-clean': '~0.5.0',
-      'grunt-contrib-jshint': '~0.6.0',
-      'grunt-readme': '~0.1.0'
+      "assemble": "~0.4.24",
+      "grunt": "~0.4.2",
+      "grunt-contrib-clean": "~0.5.0",
+      "grunt-contrib-jshint": "~0.7.2",
+      "grunt-readme": "~0.4.0",
+      "grunt-sync-pkg": "~0.1.2"
     };
-    props.keywords   = [props.name, 'assemble', 'handlebars helper', 'helper', 'grunt'];
+    props.keywords   = ['assemble', 'handlebars helper', 'helper', 'grunt'];
 
     props.travis = /y/i.test(props.travis);
     props.travis_node_version = '0.8';

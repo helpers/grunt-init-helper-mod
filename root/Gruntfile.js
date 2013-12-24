@@ -9,8 +9,6 @@
 
 module.exports = function(grunt) {
 
-  var pretty = require('pretty');
-
   // Project configuration.
   grunt.initConfig({
 
@@ -35,8 +33,7 @@ module.exports = function(grunt) {
         partials: ['test/fixtures/includes/*.hbs'],
         layout: 'test/fixtures/layouts/default.hbs',
         data: ['test/data/*.{json,yml}'],
-        helpers: ['./index.js'],
-        postprocess: pretty
+        helpers: ['./index.js']
       },
       target: {
         src: ['test/fixtures/index.hbs'],
